@@ -1,5 +1,7 @@
-﻿using Assignment.Entities;
+﻿using Assignment.Configurations;
+using Assignment.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Identity.Client;
 
 namespace Assignment.Contexts;
@@ -20,28 +22,35 @@ internal class AppDbContext : DbContext
             .IsRequired(false)
             .HasDefaultValueSql("GETDATE()");
 
-        // Composite Primary Key
+        modelBuilder.ApplyConfiguration(new InstructorConfig());
+        modelBuilder.ApplyConfiguration(new TopicConfig());
+
+        modelBuilder.Entity<Course_Inst>()
+                    .HasKey(c => new { c.CourseId, c.InstructorId });
 
         modelBuilder.Entity<Stud_Course>()
-            .HasKey(c => new { c.Stud_Id, c.Course_Id });
-        
-        modelBuilder.Entity<Course_Inst>()
-            .HasKey(c => new { c.Course_ID, c.Inst_ID});
+                    .HasKey(c => new { c.CourseId, c.StudentId });
 
+        //modelBuilder.Entity<Course_Inst>()
+        //            .HasOne(c => c.Instructor)
+        //            .WithMany(ci => ci.Courses)
+        //            .HasForeignKey(ci => ci.InstructorId);
         
+        //modelBuilder.Entity<Course_Inst>()
+        //            .HasOne(c => c.Course)
+        //            .WithMany(ci=> ci.Instructors)
+        //            .HasForeignKey(ci => ci.CourseId);
 
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server = Rabee3; Database = RouteEFCore1Assignment; Trusted_Connection = True; TrustServerCertificate = True;");
+        optionsBuilder.UseSqlServer("Server = Rabee3; Database = RouteEFCore2Assignment; Trusted_Connection = True; TrustServerCertificate = True;");
     }
 
     public DbSet<Department> Departments { get; set; }
     public DbSet<Course> Courses { get; set; }  
-    public DbSet<Course_Inst> Course_Inst {  get; set; }
     public DbSet<Instructor> Instructors { get; set; }
-    public DbSet<Stud_Course> Stud_Course { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Topic> Topics { get; set; }
 

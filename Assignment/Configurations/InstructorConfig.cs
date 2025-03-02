@@ -18,7 +18,7 @@ internal class InstructorConfig : IEntityTypeConfiguration<Instructor>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(i=> i.Bonus)
+        builder.Property(i => i.Bonus)
             .IsRequired(false);
 
         builder.Property(i=> i.Salary)
@@ -28,8 +28,18 @@ internal class InstructorConfig : IEntityTypeConfiguration<Instructor>
         builder.Property(i=> i.Address)
             .IsRequired();
 
+        builder.HasOne(I => I.ManagedDepartment)
+               .WithOne(D => D.Manager)
+               .HasForeignKey<Department>(D => D.ManagerId)
+               .OnDelete(DeleteBehavior.NoAction);
 
+        builder.HasOne(I => I.Dept)
+            .WithMany(D => D.Instructors)
+            .HasForeignKey(I => I.DeptId);
 
+        
+
+        
 
 
     }

@@ -13,6 +13,8 @@ internal class Student
 
     public string Address { get; set; }
     public int? Age { get; set; }
-    public int Dep_Id { get; set; }
+    public int DepartmentId { get; set; }
+    public Department Department { get; set; }
+    public List<Stud_Course> Courses { get; set; }
 
 }

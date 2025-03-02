@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assignment.Entities;
 internal class Stud_Course
 {
-    public int Stud_Id { get; set; }
-    public int Course_Id { get; set; }
+    public int StudentId { get; set; }
+    public int CourseId { get; set; }
     public string Grade { get; set; }
 }

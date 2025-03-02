@@ -10,5 +10,10 @@ internal class Department
     public int Id { get; set; }
     public string Name { get; set; }
     public DateTime? HiringDate { get; set; }
-    public int Ins_Id { get; set; }
+    public int? ManagerId { get; set; }
+    public Instructor Manager { get; set; }
+    
+    public List<Instructor> Instructors { get; set; }
+    public List<Student> Students { get; set; }
+
 }
